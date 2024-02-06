@@ -30,8 +30,9 @@ body {
 /* Hero Styles */
 .hero {
   background-color: #f4f6f9;
-  padding: 100px 0;
+  padding: 50px 0;
   text-align: center;
+  display: flex center;
 }
 
 .hero h1 {
@@ -63,12 +64,19 @@ body {
 .features {
   padding: 50px 0;
 }
+.features h2 {
+  color:slategrey;
+  padding: 50px 0;
+  text-align: center;
+  width: fit-content center;
+}
 
 .feature-list {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  
 }
 
 .feature-item {
@@ -79,6 +87,11 @@ body {
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
+}
+.feature-item h3{
+  padding: 10px 0;
+  text-align: center;
+  display: flex center ;
 }
 
 .feature-item:hover {

@@ -1,6 +1,6 @@
 <!-- FeatureItem.vue -->
 <template>
-    <div class="feature-item">
+    <div class="feature-item" style="padding: 10px;">
       <img :src="iconSrc" :alt="title" class="feature-icon">
       <h3>{{ title }}</h3>
       <p>{{ description }}</p>

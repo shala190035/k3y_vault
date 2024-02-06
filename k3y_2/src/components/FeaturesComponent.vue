@@ -14,14 +14,14 @@
           <FeatureItem
             iconSrc="/src/assets/lock.png"
             title="Ultimate Security"
-            description="Advanced encryption technology ensures the safety of your belongings."
+            description="Innovative design ensures the safety of your belongings."
           />
         </div>
         <div class="col-md-4">
           <FeatureItem
             iconSrc="/src/assets/check.png"
             title="Convenience"
-            description="Enjoy the convenience of carrying everything you need in one place."
+            description="Enjoy the convenience of having everything you need in one place."
           />
         </div>
       </div>
