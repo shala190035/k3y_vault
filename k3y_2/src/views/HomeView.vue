@@ -25,6 +25,4 @@ export default {
 };
 </script>
 
-<style scoped>
-/* Home view styles */
-</style>
+<style scoped src="@/css/styles.css"></style>

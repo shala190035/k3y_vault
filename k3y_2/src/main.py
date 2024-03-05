@@ -1,20 +1,11 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, UploadFile, File
 from sqlalchemy.orm import Session
-from models import Base, engine, Product, SessionLocal
-from pydantic import BaseModel
-from typing import List
-from fastapi.middleware.cors import CORSMiddleware
+import shutil
 
+# Stellen Sie sicher, dass FastAPI importiert wird, bevor Sie eine Instanz davon erstellen
 app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # The Vue.js app's origin
-    allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
-)
-# Dependency
+
 def get_db():
     db = SessionLocal()
     try:
@@ -22,20 +13,17 @@ def get_db():
     finally:
         db.close()
 
-class ProductBase(BaseModel):
-    name: str
-    price: float
-    description: str
-
-@app.post("/products/", response_model=ProductBase)
-def create_product(product: ProductBase, db: Session = Depends(get_db)):
-    db_product = Product(name=product.name, price=product.price, description=product.description)
+@app.post("/products/")
+def create_product(title: str, description: str, price: float, image: UploadFile = File(...), db: Session = Depends(get_db)):
+    db_product = Product(title=title, description=description, price=price, image=image.filename)
     db.add(db_product)
     db.commit()
     db.refresh(db_product)
+    with open(f"images/{image.filename}", "wb") as buffer:
+        shutil.copyfileobj(image.file, buffer)
     return db_product
 
-@app.get("/products/", response_model=List[ProductBase])
+@app.get("/products/")
 def read_products(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     products = db.query(Product).offset(skip).limit(limit).all()
     return products

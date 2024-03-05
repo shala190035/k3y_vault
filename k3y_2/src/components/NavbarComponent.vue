@@ -33,9 +33,6 @@
   </template>
   
   <script>
-  export default {
-    // Add any necessary component logic here
-  };
   </script>
   
   <style scoped src="@/css/styles.css"></style>
