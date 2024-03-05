@@ -1,5 +1,5 @@
 <template>
-  <section class="features text-center"> <!-- Added 'text-center' class to center the content -->
+  <section class="features text-center">
     <h2>Why Choose K3Y-Vault?</h2>
     <div class="container feature-list">
       <div class="row">

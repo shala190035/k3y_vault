@@ -2,10 +2,9 @@ from fastapi import FastAPI, Depends, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from model import Product
-from database import SessionLocal  # Passen Sie den Importpfad entsprechend Ihrer Dateistruktur an
+from database import SessionLocal 
 import shutil
 
-# Stellen Sie sicher, dass FastAPI importiert wird, bevor Sie eine Instanz davon erstellen
 app = FastAPI()
 
 origins = [

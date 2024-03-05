@@ -8,7 +8,6 @@
 </template>
 
 <script>
-// Import your componentsbar
   import NavbarComponent from '@/components/NavbarComponent.vue';
   import HeroComponent from '../components/HeroComponent.vue';
   import FeaturesComponent from '../components/FeaturesComponent.vue';

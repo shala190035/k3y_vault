@@ -16,7 +16,6 @@ const router = createRouter({
       name: 'Products',
       component: ProductView,
     },
-    // Add more routes as needed
   ],
 });
 
