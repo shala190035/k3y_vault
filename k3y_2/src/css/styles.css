@@ -148,35 +148,32 @@ body {
 }
 
 /* Additions to styles.css for ProductView styling */
-
-/* ProductView Styles */
-.product-view .loading {
-  color: #999;
-  text-align: center;
-  margin-top: 20px;
-}
-
-.product-view .products-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.product-view .product-card {
+/* Weiterhin in styles.css */
+.product-card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   width: 300px;
-  margin: 10px;
-  padding: 20px;
-  border-radius: 5px;
-  text-align: center;
+  margin: 20px;
+  border-radius: 10px; /* Etwas größere Rundung für einen modernen Look */
+  overflow: hidden; /* Verhindert das Überstehen von Inhalten */
 }
 
-.product-view .product-card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+.product-card img {
+  width: 100%; /* Stellt sicher, dass das Bild die gesamte Breite der Karte einnimmt */
+  display: block; /* Entfernt mögliche Leerräume unter dem Bild */
+  transition: transform 0.3s ease; /* Sanfte Zoom-Animation */
 }
 
-.product-view .price {
+.product-card:hover img {
+  transform: scale(1.05); /* Vergrößert das Bild beim Hover */
+}
+
+.product-card h3, .product-card p {
+  padding: 0 20px; /* Fügt Innenabstand für Textelemente hinzu */
+}
+
+.price {
   color: #007BFF;
   font-weight: bold;
+  margin-bottom: 20px; /* Fügt etwas Abstand zum unteren Rand hinzu */
 }
