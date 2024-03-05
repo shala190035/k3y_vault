@@ -1,10 +1,27 @@
 from fastapi import FastAPI, Depends, HTTPException, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
+from model import Product
+from database import SessionLocal  # Passen Sie den Importpfad entsprechend Ihrer Dateistruktur an
 import shutil
 
 # Stellen Sie sicher, dass FastAPI importiert wird, bevor Sie eine Instanz davon erstellen
 app = FastAPI()
 
+# Liste der erlaubten Ursprünge (hier fügen Sie die URL Ihres Frontends ein)
+origins = [
+    "http://localhost:5173",  # Vue-App
+    "http://127.0.0.1:5173"   # Falls Sie auch 127.0.0.1 verwenden
+]
+
+# CORS Middleware Konfiguration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Alle Ursprünge aus der Liste erlauben
+    allow_credentials=True,
+    allow_methods=["*"],  # Erlaube alle Methoden
+    allow_headers=["*"],  # Erlaube alle Header
+)
 
 def get_db():
     db = SessionLocal()
