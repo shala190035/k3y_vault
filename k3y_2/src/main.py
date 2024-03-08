@@ -1,11 +1,14 @@
 from fastapi import FastAPI, Depends, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from model import Product
 from database import SessionLocal 
 import shutil
 
 app = FastAPI()
+
+app.mount("/images", StaticFiles(directory="images"), name="images")
 
 origins = [
     "http://localhost:5173",
@@ -28,8 +31,12 @@ def get_db():
         db.close()
 
 @app.post("/products/")
-def create_product(title: str, description: str, price: float, image: str, db: Session = Depends(get_db)):
-    db_product = Product(title=title, description=description, price=price, image=image)
+async def create_product(title: str, description: str, price: float, image: UploadFile = File(...), db: Session = Depends(get_db)):
+    image_path = f"images/{image.filename}"
+    with open(image_path, "wb") as buffer:
+        shutil.copyfileobj(image.file, buffer)
+    
+    db_product = Product(title=title, description=description, price=price, image=image_path)
     db.add(db_product)
     db.commit()
     db.refresh(db_product)

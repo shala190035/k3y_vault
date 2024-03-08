@@ -176,3 +176,18 @@ body {
   font-weight: bold;
   margin-bottom: 20px;
 }
+
+.product {
+  border: 1px solid #eee;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.product-image {
+  width: 100%;
+  max-width: 300px;
+}
+.product-image {
+  width: 100%;
+  max-width: 300px; /* Anpassen nach Bedarf */
+  height: auto; /* Beibehalten des Seitenverhältnisses */
+}
