@@ -35,10 +35,11 @@
                 </svg>
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown">
-                <li v-for="item in cartItems" :key="item.id" class="dropdown-item">
+                <div v-for="item in cartItems" :key="item.id" class="cart-item">
                   {{ item.title }} - {{ item.quantity }}x - {{ item.price }} €
-                </li>
-                <!-- Option zum Anzeigen des Warenkorbs oder zur Kasse gehen -->
+                  <button @click.stop="removeItemFromCart(item.id)">remove</button>
+                </div>
+
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Warenkorb anzeigen</a></li>
               </ul>
@@ -51,15 +52,21 @@
   </template>
   
   <script>
-    import { mapGetters } from 'vuex';
+    import { mapActions, mapGetters } from 'vuex';
     
     export default {
       computed: {
-        // Bindet den Warenkorb Getter aus dem Vuex Store
-        ...mapGetters(['cartItems']), // Nehmen wir an, Ihr Getter heißt 'cartItems'
+        ...mapGetters(['cartItems']),
+      },
+      methods: {
+        ...mapActions(['removeFromCart']),
+        removeItemFromCart(productId) {
+          this.removeFromCart(productId);
+        },
       },
     };
   </script>
+  
   
   
   <style scoped src="@/css/styles.css"></style>
