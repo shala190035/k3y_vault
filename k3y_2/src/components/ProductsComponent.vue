@@ -5,7 +5,7 @@
       <h3>{{ product.title }}</h3>
       <p>{{ product.description }}</p>
       <div class="price">{{ product.price }} €</div>
-      <button @click.stop="addToCart(product)" class="add-to-cart-button">In Warenkorb hinzufügen</button>
+      <button @click.stop="addToCart(product)" class="add-to-cart-button">add to card</button>
     </div>
   </div>
 </template>

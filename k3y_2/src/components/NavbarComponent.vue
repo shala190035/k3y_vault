@@ -37,7 +37,7 @@
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown">
                 <div v-for="item in cartItems" :key="item.id" class="cart-item">
                   {{ item.title }} - {{ item.quantity }}x - {{ (item.price * item.quantity).toFixed(2) }} €
-                  <button @click.stop="removeItemFromCart(item.id)" class="button remove-from-cart-button">Entfernen</button>
+                  <button @click.stop="removeItemFromCart(item.id)" class="button remove-from-cart-button">X</button>
                 </div>
               </ul>
             </li>
