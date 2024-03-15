@@ -1,14 +1,15 @@
 <template>
   <div class="product-component">
     <div v-for="product in products" :key="product.id" class="product-card">
-      <h3>{{ product.title }}</h3>
       <img :src="getImageUrl(product.image)" alt="Product Image" class="product-image"/>
+      <h3>{{ product.title }}</h3>
       <p>{{ product.description }}</p>
-      <p>{{ product.price }} €</p>
-      <button @click="addToCart(product)">In Warenkorb hinzufügen</button>
+      <div class="price">{{ product.price }} €</div>
+      <button @click.stop="addToCart(product)" class="add-to-cart-button">In Warenkorb hinzufügen</button>
     </div>
   </div>
 </template>
+
 
 <script>
 import axios from 'axios';

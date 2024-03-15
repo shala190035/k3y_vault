@@ -8,9 +8,13 @@ const store = createStore({
   },
   mutations: {
     addToCart(state, product) {
-      state.cart.push(product);
-      // Warenkorb im localStorage speichern
-      localStorage.setItem('cart', JSON.stringify(state.cart));
+        let found = state.cart.find(item => item.id === product.id);
+        if (found) {
+          found.quantity++;
+        } else {
+          state.cart.push({...product, quantity: 1});
+        }
+        localStorage.setItem('cart', JSON.stringify(state.cart)); // Warenkorb aktualisieren
     },
     setCart(state, cart) {
       state.cart = cart;
@@ -18,12 +22,13 @@ const store = createStore({
       localStorage.setItem('cart', JSON.stringify(state.cart));
     },
     removeFromCart(state, productId) {
-        const index = state.cart.findIndex(item => item.id === productId);
-        if (index !== -1) {
-            state.cart.splice(index, 1);
-            // Aktualisierten Warenkorb im localStorage speichern
-            localStorage.setItem('cart', JSON.stringify(state.cart));
+        let found = state.cart.find(item => item.id === productId);
+        if (found && found.quantity > 1) {
+          found.quantity--;
+        } else {
+          state.cart = state.cart.filter(item => item.id !== productId);
         }
+        localStorage.setItem('cart', JSON.stringify(state.cart)); // Warenkorb aktualisieren
     },
   },
   actions: {
