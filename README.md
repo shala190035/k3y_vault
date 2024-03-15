@@ -5,4 +5,5 @@ Website for a wallet that can hold a key
 2. "npm run dev" im k3y_2 ordner
 3. "cd src" in src ordener
 4. "uvicorn main:app --reload" backend starten
+5. http://127.0.0.1:8000/docs 
 

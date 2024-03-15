@@ -4,7 +4,7 @@
     <div class="products-container">
       <ProductComponent />
     </div>
-    <div class="fixed-bottom">
+    <div class="bottom">
     <FooterComponent />
     </div>
   </div>

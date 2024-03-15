@@ -35,14 +35,13 @@
                 </svg>
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown">
-                <li v-for="item in cart" :key="item.id" class="dropdown-item">
+                <li v-for="item in cartItems" :key="item.id" class="dropdown-item">
                   {{ item.title }} - {{ item.quantity }}x - {{ item.price }} €
                 </li>
                 <!-- Option zum Anzeigen des Warenkorbs oder zur Kasse gehen -->
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Warenkorb anzeigen</a></li>
               </ul>
-
             </li>
 
           </ul>
@@ -52,14 +51,15 @@
   </template>
   
   <script>
-   export default {
-    data() {
-      return {
-        // Angenommen, Ihr Warenkorb ist ein Array von Objekten mit id, title und quantity
-        cart: [],
-      };
-    },
-  };
+    import { mapGetters } from 'vuex';
+    
+    export default {
+      computed: {
+        // Bindet den Warenkorb Getter aus dem Vuex Store
+        ...mapGetters(['cartItems']), // Nehmen wir an, Ihr Getter heißt 'cartItems'
+      },
+    };
   </script>
+  
   
   <style scoped src="@/css/styles.css"></style>
