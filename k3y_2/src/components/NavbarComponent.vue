@@ -12,9 +12,6 @@
             <li class="nav-item">
               <router-link to="/" class="nav-link active" aria-current="page">Home</router-link>
             </li>
-            <li class="nav-item">
-              <router-link to="/link" class="nav-link">Link</router-link>
-            </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person" viewBox="1 1 16 16">
@@ -34,7 +31,7 @@
                   <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L1.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM4.5 8a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5V8z"/>
                 </svg>
               </a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown">
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown" style="padding:10px">
                 <div v-for="item in cartItems" :key="item.id" class="cart-item">
                   {{ item.title }} - {{ item.quantity }}x - {{ (item.price * item.quantity).toFixed(2) }} €
                   <button @click.stop="removeItemFromCart(item.id)" class="button remove-from-cart-button">X</button>
