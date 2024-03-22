@@ -7,3 +7,4 @@ Website for a wallet that can hold a key
 4. "uvicorn main:app --reload" backend starten
 5. http://127.0.0.1:8000/docs 
 
+11:03 22.03.2024 start
