@@ -36,6 +36,7 @@
                   {{ item.title }} - {{ item.quantity }}x - {{ (item.price * item.quantity).toFixed(2) }} €
                   <button @click.stop="removeItemFromCart(item.id)" class="button remove-from-cart-button">X</button>
                 </div>
+                <button class="button checkout" style="padding:10px"><router-link to="/checkout" class="nav-link active" aria-current="page">checkout</router-link></button>
               </ul>
             </li>
 

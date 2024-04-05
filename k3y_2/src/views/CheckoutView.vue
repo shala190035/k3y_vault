@@ -1,5 +1,11 @@
 <template>
   <div class="checkout-page">
+    <!-- Zurück-Pfeil -->
+    <div class="back-to-products">
+      <router-link to="/products">
+        <i class="fas fa-arrow-left"></i> Zurück zu den Produkten
+      </router-link>
+    </div>
     <h1 class="page-title">Kasse</h1>
     <div class="checkout-content">
       <div class="cart-details">
@@ -10,7 +16,7 @@
               <span class="item-title">{{ item.title }}</span>
               <span class="item-quantity">Menge: {{ item.quantity }}</span>
               <span class="item-price">{{ item.price }} €</span>
-              <button @click="removeItemFromCart(item.id)" class="button remove-from-cart-button">Entfernen</button>
+              <button @click.stop="removeItemFromCart(item.id)" class="button remove-from-cart-button">Entfernen</button>
             </div>
           </li>
         </ul>
@@ -45,7 +51,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   data() {
@@ -64,11 +70,14 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['removeFromCart']),
+    removeItemFromCart(productId) {
+      this.removeFromCart(productId);
+    },
     submitOrder() {
       console.log("Bestellung aufgegeben:", this.order, "mit Warenkorb", this.cartItems);
       // Implementiere hier die Logik, um die Bestellung zu verarbeiten
     }
-  
   }
 }
 </script>
@@ -168,4 +177,20 @@ export default {
 .submit-order-btn:hover {
   background-color: #27ae60;
 }
+.back-to-products {
+  margin-bottom: 20px;
+}
+
+.back-to-products a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+.back-to-products i {
+  margin-right: 5px;
+}
+
 </style>

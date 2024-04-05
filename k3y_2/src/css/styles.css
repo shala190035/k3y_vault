@@ -241,3 +241,6 @@ body {
 .cart-items{
   padding: 10;
 }
+.checkout{
+  background-color: #27ae60;
+}
