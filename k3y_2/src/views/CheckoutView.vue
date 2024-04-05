@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
@@ -70,17 +71,36 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['removeFromCart']),
+    ...mapActions(['removeFromCart', 'clearCart']),
     removeItemFromCart(productId) {
       this.removeFromCart(productId);
     },
-    submitOrder() {
-      console.log("Bestellung aufgegeben:", this.order, "mit Warenkorb", this.cartItems);
-      // Implementiere hier die Logik, um die Bestellung zu verarbeiten
+    async submitOrder() {
+      const orderDetails = {
+        email: this.order.email,
+        order: {
+          items: this.cartItems,
+          total: this.total,
+          address: this.order.address,
+          paymentMethod: this.order.payment
+        }
+      };
+
+      try {
+        await axios.post('http://localhost:8000/submit-order', orderDetails);
+        this.clearCart(); // Leere den Warenkorb nach erfolgreicher Bestellung
+        alert('Bestellung erfolgreich aufgegeben! Bitte überprüfe deine E-Mail auf eine Bestätigung.');
+        this.$router.push('/'); // Weiterleitung zur Startseite oder Bestätigungsseite
+      } catch (error) {
+        console.error('Es gab einen Fehler beim Absenden der Bestellung:', error);
+        alert('Es gab einen Fehler bei deiner Bestellung. Bitte versuche es erneut.');
+      }
     }
   }
 }
 </script>
+
+
 
 <style scoped>
 /* Deine vorhandenen Stile */
