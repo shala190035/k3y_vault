@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import ProductView from '../views/ProductView.vue';
 import CheckoutView from '../views/CheckoutView.vue'; // Importieren Sie Ihre CheckoutView
+import OrderTrackingView from '../views/OrderTrackingView.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -21,6 +22,11 @@ const router = createRouter({
       path: '/checkout',
       name: 'Checkout',
       component: CheckoutView, // Fügen Sie Ihre Route hinzu
+    },
+    {
+      path: '/track-order',
+      name: 'TrackOrder',
+      component: OrderTrackingView,
     },
   ],
 });

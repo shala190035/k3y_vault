@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Body
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from model import Product, Order, OrderItem 
+from model import Product, Order, OrderItem
 from database import SessionLocal
 import shutil
 from sendgrid import SendGridAPIClient
@@ -9,6 +9,7 @@ from sendgrid.helpers.mail import Mail
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv  # Import dotenv
 import os
+import logging
 
 # Load environment variables from .env file
 load_dotenv()
@@ -58,57 +59,80 @@ def read_products(skip: int = 0, limit: int = 10, db: Session = Depends(get_db))
 async def submit_order(order_details: dict = Body(...), db: Session = Depends(get_db)):
     try:
         email = order_details['email']
-        address = order_details['order']['address']
-        payment_method = order_details['order']['paymentMethod']
-        items = order_details['order']['items']
-        total = order_details['order']['total']
-
-        # Create order instance
-        order = Order(email=email, address=address, payment_method=payment_method, total=total)
-        db.add(order)
-        db.commit()
-        db.refresh(order)
-
-        # Create order item instances
-        for item in items:
-            order_item = OrderItem(order_id=order.id, product_id=item['id'], quantity=item['quantity'], price=item['price'])
-            db.add(order_item)
+        order = order_details['order']
+        # Path or URL to your logo
+        logo_url = "http://localhost:5173/src/assets/logo_noname.png"  # Change to the actual path of your logo
+        company_name = "K3Y"
         
-        db.commit()
+        # Create email content with logo and company name
         email_content = f"""
         <html>
             <head></head>
             <body>
-                <h1>Thank you for your order #{order.id}!</h1>
-                <p>Your order details are as follows:</p>
+                <div style="text-align: center;">
+                    <img src="{logo_url}" alt="Company Logo" style="width: 150px;"><br>
+                    <h2>{company_name}</h2>
+                </div>
+                <h1>Thank you for your order!</h1>
+                <p>The details of your order are as follows:</p>
                 <table>
                     <tr>
                         <th>Item</th>
                         <th>Quantity</th>
                         <th>Price</th>
                     </tr>
-                    {''.join([f"<tr><td>{item['title']}</td><td> X {item['quantity']}</td><td>{item['price']} €</td></tr>" for item in items])}
+                    {''.join([f"<tr><td>{item['title']}</td><td>{item['quantity']}</td><td>{item['price']} €</td></tr>" for item in order['items']])}
                 </table>
-                <p>Total: <strong>{total} €</strong></p>
-                <p>Delivery Address: {address}</p>
-                <p>Payment Method: {payment_method}</p>
+                <p>Total: <strong>{order['total']} €</strong></p>
+                <p>Delivery Address: {order['address']}</p>
+                <p>Payment Method: {order['paymentMethod']}</p>
                 <p>We are processing your order and will send you a confirmation once it's shipped.</p>
             </body>
         </html>
         """
         message = Mail(
-            from_email='wadu0185@gmail.com',  # Ensure this email is verified in SendGrid.
+            from_email='wadu0185@gmail.com',  # Ensure this email is verified with SendGrid.
             to_emails=email,
-            subject=f'Order Confirmation #{order.id}',
+            subject='Order Confirmation',
             html_content=email_content
         )
-        sendgrid_api_key = os.getenv('SENDGRID_API_KEY')
-        if not sendgrid_api_key:
-            raise Exception("SendGrid API key not found.")
-        sg = SendGridAPIClient(sendgrid_api_key)
+        sg = SendGridAPIClient(os.getenv('SENDGRID_API_KEY'))
         response = sg.send(message)
-        print(f"Email sent. Status Code: {response.status_code}, Body: {response.body}")
-        return {"message": "Order confirmation email sent successfully.", "orderId": order.id}
+        return {"message": "Order confirmation email sent successfully."}
     except Exception as e:
-        print(f"Error sending email: {e}")  # Log the full error
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/track-order")
+async def track_order(order_id: int = Body(...), address: str = Body(...), db: Session = Depends(get_db)):
+    logging.info(f"Tracking order: ID={order_id}, Address='{address}'")
+    order = db.query(Order).filter(Order.id == order_id, Order.address == address).first()
+    if not order:
+        logging.warn(f"Order not found: ID={order_id}, Address='{address}'")
+        raise HTTPException(status_code=404, detail="Order not found or address does not match")
+    order_details = format_order_details(order)
+    return order_details
+
+
+
+def format_order_details(order):
+    # Example implementation
+    items_details = []
+    for item in order.order_items:
+        item_detail = {
+            "title": item.product.title,
+            "quantity": item.quantity,
+            "price": item.price
+        }
+        items_details.append(item_detail)
+
+    order_details = {
+        "id": order.id,
+        "email": order.email,
+        "address": order.address,
+        "payment_method": order.payment_method,
+        "total": order.total,
+        "items": items_details,
+        "created_at": order.created_at
+    }
+    return order_details
+
