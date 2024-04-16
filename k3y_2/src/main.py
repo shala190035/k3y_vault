@@ -112,27 +112,23 @@ async def track_order(order_id: int = Body(...), address: str = Body(...), db: S
     order_details = format_order_details(order)
     return order_details
 
-
+@app.post("/track-order/")
+async def track_order(order_id: int, address: str, db: Session = Depends(get_db)):
+    order = db.query(Order).filter(Order.id == order_id, Order.address == address).first()
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found or address does not match")
+    order_details = format_order_details(order)
+    return {"order_details": order_details}
 
 def format_order_details(order):
-    # Example implementation
-    items_details = []
-    for item in order.order_items:
-        item_detail = {
-            "title": item.product.title,
-            "quantity": item.quantity,
-            "price": item.price
-        }
-        items_details.append(item_detail)
-
-    order_details = {
+    items_details = [{"title": item.product.title, "quantity": item.quantity, "price": item.price} for item in order.order_items]
+    return {
         "id": order.id,
         "email": order.email,
         "address": order.address,
         "payment_method": order.payment_method,
         "total": order.total,
+        "status": order.status,  # Include status in the response
         "items": items_details,
-        "created_at": order.created_at
+        "created_at": order.created_at.isoformat(),
     }
-    return order_details
-

@@ -1,7 +1,9 @@
-from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, DateTime
+from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, DateTime, Enum as SQLEnum
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.sql import func
+from enum import Enum
+
 
 # Database URL, adjust as needed for your setup
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
@@ -21,8 +23,13 @@ class Product(Base):
     price = Column(Float)
     image = Column(String)  # Stores the path to the image file
 
+class OrderStatus(str, Enum):
+    PROCESSING = "Processing"
+    SHIPPING = "Shipping"
+    RECEIVED = "Received"
+
 class Order(Base):
-    __tablename__ = "orders"
+    __tablename__ = 'orders'
 
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, index=True)
@@ -30,8 +37,9 @@ class Order(Base):
     payment_method = Column(String)
     total = Column(Float)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-    order_items = relationship("OrderItem", back_populates="order")  # Relationship to order items
-
+    status = Column(SQLEnum(OrderStatus), default=OrderStatus.PROCESSING.name)
+    order_items = relationship("OrderItem", back_populates="order")
+    
 class OrderItem(Base):
     __tablename__ = "order_items"
 
