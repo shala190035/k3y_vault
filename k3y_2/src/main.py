@@ -19,8 +19,10 @@ app = FastAPI()
 app.mount("/images", StaticFiles(directory="images"), name="images")
 
 origins = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173"
+    "http://localhost:5173",  # Frontend port
+    "http://127.0.0.1:5173",
+    "http://localhost:8000",  # Backend port
+    "http://127.0.0.1:8000"
 ]
 
 app.add_middleware(

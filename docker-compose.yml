@@ -6,7 +6,7 @@ services:
       context: ./k3y_2 # Update this to your frontend directory path
       dockerfile: Dockerfile-frontend
     ports:
-      - "80:8080" # Update this if you serve your app on a different port
+      - "5173:8080" # Update this if you serve your app on a different port
 
   backend:
     build:

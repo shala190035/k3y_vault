@@ -5,24 +5,30 @@
       <div class="row">
         <div class="col-md-4">
           <FeatureItem
-            iconSrc="/src/assets/wallet-icon.png"
             title="Dual Functionality"
-            description="Store your money and keys securely in one compact wallet."
-          />
+            description="Store your money and keys securely in one compact wallet.">
+            <template #icon>
+              <img src="@/assets/wallet-icon.png" alt="Wallet Icon">
+            </template>
+          </FeatureItem>
         </div>
         <div class="col-md-4">
           <FeatureItem
-            iconSrc="/src/assets/lock.png"
             title="Ultimate Security"
-            description="Innovative design ensures the safety of your belongings."
-          />
+            description="Innovative design ensures the safety of your belongings.">
+            <template #icon>
+              <img src="@/assets/lock.png" alt="Lock Icon">
+            </template>
+          </FeatureItem>
         </div>
         <div class="col-md-4">
           <FeatureItem
-            iconSrc="/src/assets/check.png"
             title="Convenience"
-            description="Enjoy the convenience of having everything you need in one place."
-          />
+            description="Enjoy the convenience of having everything you need in one place.">
+            <template #icon>
+              <img src="@/assets/check.png" alt="Check Icon">
+            </template>
+          </FeatureItem>
         </div>
       </div>
     </div>
