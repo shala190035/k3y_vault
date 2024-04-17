@@ -16,7 +16,7 @@ load_dotenv()
 
 app = FastAPI()
 
-app.mount("/images", StaticFiles(directory="images"), name="images")
+app.mount("/images", StaticFiles(directory=os.path.join(os.path.dirname(__file__), "images")), name="images")
 
 origins = [
     "http://localhost:5173",  # Frontend port

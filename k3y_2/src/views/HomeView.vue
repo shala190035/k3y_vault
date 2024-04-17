@@ -3,7 +3,6 @@
     <NavbarComponent />
     <HeroComponent />
     <FeaturesComponent />
-    <FooterComponent />
   </div>
 </template>
 

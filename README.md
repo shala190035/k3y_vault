@@ -1,6 +1,10 @@
 # k3y_vault
 Website for a wallet that can hold a key
-## how to start
+## how to start1
+1. docker-compose up --build
+
+
+## how to start2
 1. in venv gehen
 2. "npm run dev" im k3y_2 ordner
 3. "cd src" in src ordener

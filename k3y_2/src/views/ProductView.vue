@@ -5,7 +5,6 @@
       <ProductComponent />
     </div>
     <div class="bottom">
-    <FooterComponent />
     </div>
   </div>
 </template>
